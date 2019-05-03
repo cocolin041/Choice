@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {Redirect} from 'react-router-dom';
-// import Post from '../post/post.jsx'
+import './login.css';
 
 class Login extends Component {
   constructor(props) {

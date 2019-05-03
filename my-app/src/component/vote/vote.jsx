@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
+import './vote.css';
 
 class Vote extends Component {
   constructor(props) {
@@ -7,7 +7,7 @@ class Vote extends Component {
     this.state = {
       user_id: '',
       post: [],
-      newVote: true
+      newVote: false
     }
     this.connecToServer = this.connecToServer.bind(this);
     this.left = this.left.bind(this);
@@ -27,7 +27,8 @@ class Vote extends Component {
     .then(res => res.json())
     .then(data => {
       this.setState({
-        user_id: data[0].user_id
+        user_id: data[0].user_id,
+        newVote: true
       });
     })
   }
