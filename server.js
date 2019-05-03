@@ -3,8 +3,6 @@ const app = express();
 const path = require('path');
 const port = process.env.PORT || 5000;
 
-console.log(__dirname);
-
 //Static file declaration
 app.use(express.static(path.join(__dirname, 'my-app/public')));
 
