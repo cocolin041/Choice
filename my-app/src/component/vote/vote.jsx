@@ -7,7 +7,9 @@ class Vote extends Component {
     this.state = {
       user_id: '',
       post: [],
-      newVote: false
+      newVote: false,
+      count: 0,
+      startRender: false
     }
     this.connecToServer = this.connecToServer.bind(this);
     this.left = this.left.bind(this);
@@ -38,7 +40,6 @@ class Vote extends Component {
   }
 
   update = () => {
-    // console.log(this.state.newVote);
     if (this.state.newVote) {
       fetch('/vote/' + this.state.user_id, {
         method: 'get',
@@ -50,8 +51,12 @@ class Vote extends Component {
       })
       .then(res => res.json())
       .then(data => {
-        console.log(data);
+        // console.log(data);
         this.setState({newVote: false});
+        if (this.state.count === 0) {
+          this.setState({startRender: true});
+          this.setState({count: 1});
+        }
         if (data.length > 0) {
           this.setState({post: data});
         } else {
@@ -61,16 +66,18 @@ class Vote extends Component {
     }
   }
   setrender = () => {
-    if (this.state.post.length > 0) {
-      let post = this.state.post[0];
-      return (
-        <div>
-          <span onClick={() => this.left(post.post_id)}>{post.left}</span>
-          <span onClick={() => this.right(post.post_id)}>{post.right}</span>
-        </div>
-      )
-    } else {
-      return <div>You voted all</div>
+    if (this.state.startRender) {
+      if (this.state.post.length > 0) {
+        let post = this.state.post[0];
+        return (
+          <div>
+            <span onClick={() => this.left(post.post_id)}>{post.left}</span>
+            <span onClick={() => this.right(post.post_id)}>{post.right}</span>
+          </div>
+        )
+      } else {
+        return <div>You voted all</div>
+      }
     }
   }
 
