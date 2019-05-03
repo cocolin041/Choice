@@ -15,7 +15,7 @@ var con = mysql.createConnection({
   user: "bcb93c414806a9",
   password: "e6eea2e6"
 });
-con.connect();
+// con.connect();
 
 //open the cross access
 app.use(function(req, res, next) {
