@@ -54,13 +54,14 @@ class Vote extends Component {
         // console.log(data);
         this.setState({newVote: false});
         if (data.length > 0) {
-          this.setState({post: data});
+          if (this.state.count === 0) {
+            this.setState({post: data, startRender: true});
+            this.setState({count: 1});
+          } else {
+            this.setState({post: data});
+          }
         } else {
           this.setState({post: []});
-        }
-        if (this.state.count === 0) {
-          this.setState({startRender: true});
-          this.setState({count: 1});
         }
       })
     }
