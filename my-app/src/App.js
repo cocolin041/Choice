@@ -8,7 +8,7 @@ class App extends Component {
     this.connecToServer = this.connecToServer.bind(this);
   }
   connecToServer() {
-    fetch('/users', {
+    fetch('/post', {
       method: 'get',
       dataType: 'json',
       headers: {
@@ -18,7 +18,8 @@ class App extends Component {
     })
     .then(res => res.json())
     .then(data => {
-      this.setState({data: data})
+      console.log(data);
+      this.setState({data: data[0]})
     });
   }
 
@@ -29,7 +30,7 @@ class App extends Component {
   render() {
     // console.log(this.state.data);
     return (
-      <div>Hello ss! {this.state.data.name}</div>
+      <div>Hello {this.state.data.Address}</div>
     );
   }
 }
