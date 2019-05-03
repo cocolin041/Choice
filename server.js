@@ -45,10 +45,10 @@ app.post('/post/:user_id', (req, res) => {
   var endTime = new Date();
   endTime.setMinutes(createTime.getMinutes() + Number(values.duration));
 
-  // console.log({
-  //   "createTime": createTime,
-  //   "endTime": endTime
-  // })
+  console.log({
+    "createTime": createTime,
+    "endTime": endTime
+  })
 
   con.query("INSERT INTO post (`user_id`, `left`, `right`, `createTime`, `endTime`) VALUES ('" + 
   req.params.user_id + "', '" + values.left + "', '" + values.right + "', '" + createTime.toLocaleString() + "', '" + endTime.toLocaleString() + "');", 
