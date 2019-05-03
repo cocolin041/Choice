@@ -29,7 +29,7 @@ class App extends Component {
   };
 
   render() {
-    listAll();
+    this.listAll();
     return (
       <div>Hello world!</div>
     );
