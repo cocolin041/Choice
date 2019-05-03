@@ -8,12 +8,18 @@ class App extends Component {
     this.connecToServer = this.connecToServer.bind(this);
   }
   connecToServer() {
-    fetch('/users')
-      .then(res => {
-        console.log(res.text());
-        this.setState({data: res.text});
-      })
-      .then(a => this.setState({data: a}));
+    fetch('/users', {
+      method: 'get',
+      dataType: 'json',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      }
+    })
+    .then(res => res.json())
+    .then(data => {
+      this.setState({data: data})
+    });
   }
 
   componentDidMount() {
@@ -23,7 +29,7 @@ class App extends Component {
   render() {
     // console.log(this.state.data);
     return (
-      <div>Hello ss! {this.state.data}</div>
+      <div>Hello ss! {this.state.data.name}</div>
     );
   }
 }
