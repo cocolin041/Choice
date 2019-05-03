@@ -9,7 +9,10 @@ class App extends Component {
   }
   connecToServer() {
     fetch('/users')
-      .then(res => res.text())
+      .then(res => {
+        console.log(res.text());
+        this.setState({data: res.text});
+      })
       .then(a => this.setState({data: a}));
   }
 
@@ -20,7 +23,7 @@ class App extends Component {
   render() {
     // console.log(this.state.data);
     return (
-      <div>Hello ss!</div>
+      <div>Hello ss! {this.state.data}</div>
     );
   }
 }

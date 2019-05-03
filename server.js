@@ -5,7 +5,7 @@ const path = require('path');
 const port = process.env.PORT || 5000;
 
 //Static file declaration
-// app.use(express.static(path.join(__dirname, 'my-app/build')));
+app.use(express.static(path.join(__dirname, 'my-app/build')));
 
 //production mode
 // if(process.env.NODE_ENV === 'production') {
