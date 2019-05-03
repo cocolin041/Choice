@@ -49,7 +49,7 @@ class Vote extends Component {
           'Content-Type': 'application/json'
         }
       })
-      .then(res => res.text())
+      .then(res => res.json())
       .then(data => {
         console.log(data);
         console.log(data.length);

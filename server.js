@@ -93,9 +93,11 @@ app.post('/user', (req, res) => {
 //vote
 app.get('/vote/:user_id', (req, res) => {
   let currentTime = new Date();
+  currentTime =  moment(currentTime).format("YYYY-MM-DD HH:mm:ss");
+  
   con.query("SELECT * FROM post \
             WHERE post_id NOT IN ( SELECT post_id FROM vote WHERE user_id = '" + req.params.user_id + "')\
-            AND endTime > '" + currentTime.toLocaleString() + "' \
+            AND endTime > '" + currentTime + "' \
             AND user_id != '" + req.params.user_id + "' \
             LIMIT 1",
   (err, result) => {
