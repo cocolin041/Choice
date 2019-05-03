@@ -10,11 +10,12 @@ app.use(bodyParser.json()); // support json encoded bodies
 app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
 
 //connect to mysql
-var con = mysql.createConnection({
+var con = mysql.createPool({
   host: "us-cdbr-iron-east-02.cleardb.net",
   database: "heroku_55d31885725360a",
   user: "bcb93c414806a9",
-  password: "e6eea2e6"
+  password: "e6eea2e6",
+  connectionLimit : 10
 });
 
 //open the cross access
