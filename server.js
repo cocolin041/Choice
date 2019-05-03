@@ -33,12 +33,14 @@ app.get('/post', (req, res) => {
     if (err) throw err;
     res.send(result);
   });
+  con.release();
 })
 app.get('/post/:user_id', (req, res) => {
   con.query("SELECT * FROM post WHERE user_id = '" + req.params.user_id + "'", (err, result) => {
     if (err) throw err;
     res.send(result);
   });
+  con.release();
 })
 app.post('/post/:user_id', (req, res) => {
   let values = req.body;
@@ -64,6 +66,7 @@ app.post('/post/:user_id', (req, res) => {
       result: result
     });
   });
+  con.release();
 })
 
 //user
@@ -72,12 +75,14 @@ app.get('/user', (req, res) => {
     if (err) throw err;
     res.send(result);
   });
+  con.release();
 })
 app.get('/user/:username', (req, res) => {
   con.query("SELECT * FROM user WHERE userName = '" + req.params.username + "'", (err, result) => {
     if (err) throw err;
     res.send(result);
   });
+  con.release();
 })
 
 app.post('/user', (req, res) => {
@@ -87,6 +92,7 @@ app.post('/user', (req, res) => {
     if (err) throw err;
   });
   res.send(values);
+  con.release();
 })
 
 //vote
@@ -102,6 +108,7 @@ app.get('/vote/:user_id', (req, res) => {
     res.send(result);
     // console.log(result);
   });
+  con.release();
 })
 
 app.post('/vote/:user_id', (req, res) => {
@@ -112,7 +119,7 @@ app.post('/vote/:user_id', (req, res) => {
     if (err) throw err;
   });
   res.send(values);
-  // console.log(values);
+  con.release();
 })
 
 //voteResult
@@ -123,6 +130,7 @@ app.get('/voteResult/:post_id', (req, res) => {
     res.send(result);
     // console.log(result);
   });
+  con.release();
 })
 
 
