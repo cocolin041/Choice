@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import {Redirect, Link} from 'react-router-dom';
 import './vote.css';
 
 class Vote extends Component {
@@ -132,6 +133,10 @@ class Vote extends Component {
   render() {
     return (
       <div>
+        <ul className="menu">
+          <Link className="menu-item" to={{pathname: "/yourPost", username: this.props.location.username}}>Your Post</Link>
+          <Link className="menu-item" to={{pathname: "/createPost", username: this.props.location.username}}>Create Post</Link>
+        </ul>
         <h2>Vote</h2>
         {this.update()}
         {this.setrender()}

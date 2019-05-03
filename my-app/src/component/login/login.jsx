@@ -9,14 +9,16 @@ class Login extends Component {
       username: '',
       userExist: undefined,
       passwordMatch: false,
-      redirectPost: false,
+      redirectCreatePost: false,
+      redirectYourPost: false,
       redirectVote: false
     }
     this.searchUser = this.searchUser.bind(this);
-    this.createUser = this.createUser.bind(this);
-    this.goPost = this.goPost.bind(this);
+    this.goCreatePost = this.goCreatePost.bind(this);
+    this.goYourPost = this.goYourPost.bind(this);
     this.goVote = this.goVote.bind(this);
-    this.redirectPost = this.redirectPost.bind(this);
+    this.redirectCreatePost = this.redirectCreatePost.bind(this);
+    this.redirectYourPost = this.redirectYourPost.bind(this);
     this.redirectVote = this.redirectVote.bind(this);
     
   }
@@ -90,15 +92,23 @@ class Login extends Component {
       })
     });
   };
-  redirectPost = () => {
-    this.setState({redirectPost: true});
+  redirectCreatePost = () => {
+    this.setState({redirectCreatePost: true});
+  }
+  redirectYourPost = () => {
+    this.setState({redirectYourPost: true});
   }
   redirectVote = () => {
     this.setState({redirectVote: true});
   }
-  goPost = () => {
-    if (this.state.redirectPost) {
-      return <Redirect to={{pathname: '/post', username: this.state.username}} />
+  goCreatePost = () => {
+    if (this.state.redirectCreatePost) {
+      return <Redirect to={{pathname: '/createPost', username: this.state.username}} />
+    }
+  }
+  goYourPost = () => {
+    if (this.state.redirectYourPost) {
+      return <Redirect to={{pathname: '/yourPost', username: this.state.username}} />
     }
   }
   goVote = () => {
@@ -132,11 +142,17 @@ class Login extends Component {
               <div>
                 {this.state.passwordMatch ? (
                   <div>
-                    <h2>Hello, {this.state.username}</h2>
-                    {this.goPost()}
+                    <ul className="menu">
+                      <li className="menu-item" onClick={this.redirectCreatePost}>Create Post</li>
+                      <li className="menu-item" onClick={this.redirectYourPost}>Your Post</li>
+                      <li className="menu-item" onClick={this.redirectVote}>Vote</li>
+                    </ul>
+                    <h2>Welcome, {this.state.username}</h2>
+                    {this.goCreatePost()}
+                    {this.goYourPost()}
                     {this.goVote()}
-                    <button type="button" onClick={this.redirectPost}>post</button>
-                    <button type="button" onClick={this.redirectVote}>vote</button>
+                    {/* <button type="button" onClick={this.redirectPost}>post</button>
+                    <button type="button" onClick={this.redirectVote}>vote</button> */}
                   </div>
                 ) : (
                   <div>

@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import './App.css';
 import Login from './component/login/login.jsx';
-import Post from './component/post/post.jsx';
+import YourPost from './component/post/post.jsx';
+import createPost from './component/createPost/createPost.jsx';
 import Vote from './component/vote/vote.jsx';
 
 class App extends Component {
@@ -46,7 +47,8 @@ class App extends Component {
         <Switch>
           <Route exact path="/" component={Login}/>
           <Route exact path="/vote" component={Vote}/>
-          <Route exact path="/post" component={Post}/>
+          <Route exact path="/yourPost" component={YourPost}/>
+          <Route exact path="/createPost" component={createPost}/>
         </Switch>
       </Router>
     );
