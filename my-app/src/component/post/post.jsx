@@ -121,7 +121,7 @@ class Post extends Component {
       <div>
         <div>Hello, {this.props.location.username}</div>
         <h2>Create post</h2>
-        <div>
+        <div className="choice">
           <input type="text" name="left"/>
           <input type="text" name="right"/>
         </div>
