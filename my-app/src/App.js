@@ -1,5 +1,9 @@
 import React, { Component } from 'react';
+import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import './App.css';
+import Login from './component/login/login.jsx';
+import Post from './component/post/post.jsx';
+import Vote from './component/vote/vote.jsx';
 
 class App extends Component {
   constructor(props) {
@@ -27,10 +31,24 @@ class App extends Component {
     this.connecToServer();
   }
 
+  onSignIn(googleUser) {
+    var profile = googleUser.getBasicProfile();
+    console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+    console.log('Name: ' + profile.getName());
+    console.log('Image URL: ' + profile.getImageUrl());
+    console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+  }
+
   render() {
-    // console.log(this.state.data);
     return (
-      <div>Hello {this.state.data.Address}</div>
+      // <div class="g-signin2" data-onsuccess="onSignIn"></div>
+      <Router>
+        <Switch>
+          <Route exact path="/" component={Login}/>
+          <Route exact path="/vote" component={Vote}/>
+          <Route exact path="/post" component={Post}/>
+        </Switch>
+      </Router>
     );
   }
 }

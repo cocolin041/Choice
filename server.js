@@ -27,19 +27,43 @@ app.use(function(req, res, next) {
 
 app.use(express.static(path.join(__dirname, 'my-app/build')));
 
+//post
 app.get('/post', (req, res) => {
   con.query("SELECT * FROM house", (err, result) => {
     if (err) throw err;
     res.send(result);
   });
 })
-// app.get('/post', (req, res) => {
-//   let data = {
-//     "id": 1,
-//     "name": 'coco'
-//   }
-//   res.send(data);
-// })
+app.get('/post/:username', (req, res) => {
+  con.query("SELECT * FROM user WHERE userName = '" + req.params.username + "'", (err, result) => {
+    if (err) throw err;
+    res.send(result);
+  });
+})
+
+//user
+app.get('/user', (req, res) => {
+  con.query("SELECT * FROM user", (err, result) => {
+    if (err) throw err;
+    res.send(result);
+  });
+})
+app.get('/user/:username', (req, res) => {
+  con.query("SELECT * FROM user WHERE userName = '" + req.params.username + "'", (err, result) => {
+    if (err) throw err;
+    res.send(result);
+  });
+})
+
+app.post('/user', (req, res) => {
+  let values = req.body;
+  con.query("INSERT INTO user (userName, password) VALUES ('" + values.userName + "', '" + values.password +  "');", 
+  (err, result) => {
+    if (err) throw err;
+  });
+  res.send(values);
+})
+
 
 //start server
 app.listen(port, (req, res) => {
