@@ -1,4 +1,5 @@
 const express = require('express');
+var moment = require('moment');
 var mysql = require('mysql');
 const app = express();
 const path = require('path');
@@ -45,13 +46,16 @@ app.post('/post/:user_id', (req, res) => {
   var endTime = new Date();
   endTime.setMinutes(createTime.getMinutes() + Number(values.duration));
 
+  createTime =  moment(createTime).format("YYYY-MM-DD HH:mm:ss");
+  endTime =  moment(endTime).format("YYYY-MM-DD HH:mm:ss");
+
   // console.log({
   //   "createTime": createTime,
   //   "endTime": endTime
   // })
 
   con.query("INSERT INTO post (`user_id`, `left`, `right`, `createTime`, `endTime`) VALUES ('" + 
-  req.params.user_id + "', '" + values.left + "', '" + values.right + "', '" + createTime.toLocaleString() + "', '" + endTime.toLocaleString() + "');", 
+  req.params.user_id + "', '" + values.left + "', '" + values.right + "', '" + createTime + "', '" + endTime + "');", 
   (err, result) => {
     if (err) throw err;
     res.send({
