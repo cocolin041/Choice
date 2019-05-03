@@ -9,10 +9,8 @@ class App extends Component {
   }
   connecToServer() {
     fetch('/users')
-      .then(res => {
-        console.log(res)
-      })
-      // .then(a => this.setState({data: a}));
+      .then(res => res.text())
+      .then(a => this.setState({data: a}));
   }
 
   componentDidMount() {
