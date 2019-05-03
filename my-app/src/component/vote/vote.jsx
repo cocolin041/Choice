@@ -17,8 +17,8 @@ class Vote extends Component {
     this.update = this.update.bind(this);
     this.setrender = this.setrender.bind(this);
   }
-  async connecToServer() {
-    await fetch('/user/' + this.props.location.username, {
+  connecToServer() {
+    fetch('/user/' + this.props.location.username, {
       method: 'get',
       dataType: 'json',
       headers: {
@@ -51,24 +51,24 @@ class Vote extends Component {
       })
       .then(res => res.json())
       .then(data => {
-        // console.log(data);
-        this.setState({newVote: false});
+        console.log(data.length);
         if (data.length > 0) {
           if (this.state.count === 0) {
-            this.setState({post: data, startRender: true});
-            this.setState({count: 1});
+            this.setState({newVote: false, post: data, startRender: true, count: 1});
           } else {
-            this.setState({post: data});
+            this.setState({newVote: false, post: data});
           }
         } else {
-          this.setState({post: []});
+          this.setState({newVote: false, post: []});
         }
       })
     }
   }
   setrender = () => {
+    console.log("setrender");
     if (this.state.startRender) {
       console.log("render");
+      // this.setState({setrender})
       if (this.state.post.length > 0) {
         let post = this.state.post[0];
         return (
@@ -81,6 +81,8 @@ class Vote extends Component {
         console.log("You voted all");
         return <div>You voted all</div>
       }
+    } else {
+      console.log("not render");
     }
   }
 
