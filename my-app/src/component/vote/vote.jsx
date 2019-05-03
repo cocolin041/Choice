@@ -68,6 +68,7 @@ class Vote extends Component {
   }
   setrender = () => {
     if (this.state.startRender) {
+      console.log("render");
       if (this.state.post.length > 0) {
         let post = this.state.post[0];
         return (
