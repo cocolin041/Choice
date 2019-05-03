@@ -1,10 +1,5 @@
 import React, { Component } from 'react';
 import './App.css';
-// import Navbar from './Components/Layout/Navbar';
-// import { BrowserRouter as Router, Route } from 'react-router-dom';
-// import Footer from './Components/Layout/Footer';
-// import Home from './Components/Layout/Home';
-// import Social from './Components/social/Social';
 
 class App extends Component {
   constructor(props) {
@@ -19,17 +14,24 @@ class App extends Component {
   componentDidMount() {
     this.connecToServer();
   }
+
+  listAll = () => {
+    let xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+      if (this.readyState === 4 && this.status === 200) {
+        var data = JSON.parse(this.responseText);
+        console.log(data);
+      }
+    };
+    //get
+    xhttp.open("GET", "http://localhost:5000", true);
+    xhttp.send();
+  };
+
   render() {
+    listAll();
     return (
       <div>Hello world!</div>
-      // <Router>
-      // <div className="container">
-      //    <Navbar />
-      //    <Route exact path="/" component={Home} />
-      //    <Route exact path="/social" component={Social} />
-      //    <Footer />
-      // </div>
-      // </Router>
     );
   }
 }
