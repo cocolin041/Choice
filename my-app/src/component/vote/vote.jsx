@@ -41,7 +41,6 @@ class Vote extends Component {
 
   update = () => {
     if (this.state.newVote) {
-      console.log(this.state.user_id);
       fetch('/vote/' + this.state.user_id, {
         method: 'get',
         dataType: 'json',
@@ -50,8 +49,9 @@ class Vote extends Component {
           'Content-Type': 'application/json'
         }
       })
-      .then(res => res.json())
+      .then(res => res.text())
       .then(data => {
+        console.log(data);
         console.log(data.length);
         if (data.length > 0) {
           if (this.state.count === 0) {
