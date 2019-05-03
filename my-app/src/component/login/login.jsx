@@ -8,10 +8,17 @@ class Login extends Component {
     this.state = {
       username: '',
       userExist: undefined,
-      passwordMatch: false
+      passwordMatch: false,
+      redirectPost: false,
+      redirectVote: false
     }
     this.searchUser = this.searchUser.bind(this);
     this.createUser = this.createUser.bind(this);
+    this.goPost = this.goPost.bind(this);
+    this.goVote = this.goVote.bind(this);
+    this.redirectPost = this.redirectPost.bind(this);
+    this.redirectVote = this.redirectVote.bind(this);
+    
   }
 
   searchUser() {
@@ -32,7 +39,6 @@ class Login extends Component {
     .then(data => {
       //user exist
       if (data.length > 0) {
-        console.log(data);
         //password match
         if (data[0].password === password) {
           this.setState({
@@ -84,6 +90,22 @@ class Login extends Component {
       })
     });
   };
+  redirectPost = () => {
+    this.setState({redirectPost: true});
+  }
+  redirectVote = () => {
+    this.setState({redirectVote: true});
+  }
+  goPost = () => {
+    if (this.state.redirectPost) {
+      return <Redirect to={{pathname: '/post', username: this.state.username}} />
+    }
+  }
+  goVote = () => {
+    if (this.state.redirectVote) {
+      return <Redirect to={{pathname: '/vote', username: this.state.username}} />
+    }
+  }
 
   render() {
     return (
@@ -109,7 +131,13 @@ class Login extends Component {
             {this.state.userExist ? (
               <div>
                 {this.state.passwordMatch ? (
-                  <Redirect to={{pathname: "/post", username: this.state.username}} />
+                  <div>
+                    <h2>Hello, {this.state.username}</h2>
+                    {this.goPost()}
+                    {this.goVote()}
+                    <button type="button" onClick={this.redirectPost}>post</button>
+                    <button type="button" onClick={this.redirectVote}>vote</button>
+                  </div>
                 ) : (
                   <div>
                     <h2>Password doesn't match</h2>

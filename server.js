@@ -29,13 +29,31 @@ app.use(express.static(path.join(__dirname, 'my-app/build')));
 
 //post
 app.get('/post', (req, res) => {
-  con.query("SELECT * FROM house", (err, result) => {
+  con.query("SELECT * FROM post", (err, result) => {
     if (err) throw err;
     res.send(result);
   });
 })
-app.get('/post/:username', (req, res) => {
-  con.query("SELECT * FROM user WHERE userName = '" + req.params.username + "'", (err, result) => {
+app.get('/post/:user_id', (req, res) => {
+  con.query("SELECT * FROM post WHERE user_id = '" + req.params.user_id + "'", (err, result) => {
+    if (err) throw err;
+    res.send(result);
+  });
+})
+app.post('/post/:user_id', (req, res) => {
+  let values = req.body;
+  var createTime = new Date();
+  var endTime = new Date();
+  endTime.setMinutes(createTime.getMinutes() + Number(values.duration));
+
+  // console.log({
+  //   "createTime": createTime,
+  //   "endTime": endTime
+  // })
+
+  con.query("INSERT INTO post (`user_id`, `left`, `right`, `createTime`, `endTime`) VALUES ('" + 
+  req.params.user_id + "', '" + values.left + "', '" + values.right + "', '" + createTime.toLocaleString() + "', '" + endTime.toLocaleString() + "');", 
+  (err, result) => {
     if (err) throw err;
     res.send(result);
   });
@@ -62,6 +80,42 @@ app.post('/user', (req, res) => {
     if (err) throw err;
   });
   res.send(values);
+})
+
+//vote
+app.get('/vote/:user_id', (req, res) => {
+  let currentTime = new Date();
+  con.query("SELECT * FROM post \
+            WHERE post_id NOT IN ( SELECT post_id FROM vote WHERE user_id = '" + req.params.user_id + "')\
+            AND endTime > '" + currentTime.toLocaleString() + "' \
+            AND user_id != '" + req.params.user_id + "' \
+            LIMIT 1",
+  (err, result) => {
+    if (err) throw err;
+    res.send(result);
+    // console.log(result);
+  });
+})
+
+app.post('/vote/:user_id', (req, res) => {
+  let values = req.body;
+  con.query("INSERT INTO vote (user_id, post_id, choice) VALUES ('" + 
+  req.params.user_id + "', '" + values.post_id + "', '" + values.choice +  "');", 
+  (err, result) => {
+    if (err) throw err;
+  });
+  res.send(values);
+  // console.log(values);
+})
+
+//voteResult
+app.get('/voteResult/:post_id', (req, res) => {
+  con.query("SELECT * FROM vote WHERE post_id = '" + req.params.post_id + "'",
+  (err, result) => {
+    if (err) throw err;
+    res.send(result);
+    // console.log(result);
+  });
 })
 
 
