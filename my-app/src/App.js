@@ -4,34 +4,25 @@ import './App.css';
 class App extends Component {
   constructor(props) {
     super(props);
-    this.state = {}
+    this.state = {data: []};
     this.connecToServer = this.connecToServer.bind(this);
   }
   connecToServer() {
-    fetch('/');
+    fetch('/users')
+      .then(res => {
+        console.log(res)
+      })
+      // .then(a => this.setState({data: a}));
   }
 
   componentDidMount() {
     this.connecToServer();
   }
 
-  listAll = () => {
-    let xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function() {
-      if (this.readyState === 4 && this.status === 200) {
-        var data = JSON.parse(this.responseText);
-        console.log(data);
-      }
-    };
-    //get
-    xhttp.open("GET", "http://localhost:5000", true);
-    xhttp.send();
-  };
-
   render() {
-    this.listAll();
+    // console.log(this.state.data);
     return (
-      <div>Hello world!</div>
+      <div>Hello ss!</div>
     );
   }
 }
