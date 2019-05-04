@@ -11,10 +11,55 @@ body {
 h2 {
   text-align: center;
 }
+.account {
+  display: flex;
+  justify-content: center;
+}
+.login {
+  background: rgba(44,62, 80, 0.2);
+  width: 500px;
+  margin: auto;
+  margin-top: 80px;
+  height: 400px;
+  padding-bottom: 75px;
+}
+.login > div > input {
+  width: 400px;
+  text-align: center;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid black;
+  font-family: 'play', sans-serif;
+  font-size: 20px;
+  font-weight: 200;
+  padding: 10px 0;
+  outline: none;
+  color: black;
+  /* opacity: 0.5; */
+}
+.login > button {
+  border: none;
+  width: 190px;
+  background: white;
+  color: #000;
+  font-size: 16px;
+  line-height: 25px;
+  padding: 10px;
+  margin: 50px;
+  border-radius: 15px;
+  cursor: pointer;
+}
+::placeholder {
+  color: black;
+  opacity: 0.8;
+  font-weight: 100;
+  font-family: mono-space;
+  font-size: 18px;
+}
+
 .menu {
   background: #fff;
   margin: auto;
-  /* position: fixed; */
   position: relative;
   width: 100%;
   text-align: center;

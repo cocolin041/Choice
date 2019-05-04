@@ -156,16 +156,15 @@ class YourPost extends Component {
   renderPost = () => {
       return (
         <div>
-        <div>hello</div>
         {this.state.posts.map(p => 
-          <div>
-            <div>
+          <div className="post">
+            <div className="left">
               <img class="myimgL" src={p.left} />
-              <div>{p.voteLeft}</div>
+              <div>{p.voteLeft * 100 + "%"}</div>
             </div>
-            <div>
+            <div className="right">
               <img class="myimgR" src={p.right} />
-              <div>{p.voteRight}</div>
+              <div>{p.voteRight * 100 + "%"}</div>
             </div>
           </div>
         )}
@@ -180,27 +179,15 @@ class YourPost extends Component {
   render() {
     return (
       <div>
-        {/* <div>Hello, {this.props.location.username}</div> */}
         <ul className="menu">
           <Link className="menu-item" to={{pathname: "/createPost", username: this.props.location.username}}>Create Post</Link>
           <Link className="menu-item" to={{pathname: "/vote", username: this.props.location.username}}>Vote</Link>
         </ul>
         <h2>Your Post</h2>
+        <h3>This is the current voting result:)</h3>
         {this.state.posts.length > 0 ? (
           <div id="renderPost">
             {this.renderPost()}
-            {/* {this.state.posts.map(p => 
-              <div>
-                <div>
-                  <img class="myimgL" src={p.left} />
-                  <div>{p.voteLeft}</div>
-                </div>
-                <div>
-                  <img class="myimgR" src={p.right} />
-                  <div>{p.voteRight}</div>
-                </div>
-              </div>
-            )} */}
           </div>
         ):(
           <div>No post yet</div>

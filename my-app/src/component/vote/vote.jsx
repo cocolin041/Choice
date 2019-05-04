@@ -108,7 +108,7 @@ class Vote extends Component {
         let post = this.state.post[0];
         this.handleFileDownload(post.post_id);
         return (
-          <div>
+          <div className="choice">
             <img id="myimgL" onClick={() => this.left(post.post_id)} />
             <img id="myimgR" onClick={() => this.right(post.post_id)} />
           </div>
@@ -172,6 +172,8 @@ class Vote extends Component {
           <Link className="menu-item" to={{pathname: "/createPost", username: this.props.location.username}}>Create Post</Link>
         </ul>
         <h2>Vote</h2>
+        <h3>You can vote for others here!</h3>
+        <h3>Tutorial: Click img to vote for it.</h3>
         {this.update()}
         {this.setrender()}
       </div>

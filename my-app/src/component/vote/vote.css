@@ -1,4 +1,7 @@
+.choice {
+  display: flex;
+}
 img {
   height: 300px;
-  width: 50%;
+  width: 50% !important;
 }

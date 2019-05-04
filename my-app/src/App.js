@@ -5,6 +5,7 @@ import Login from './component/login/login.jsx';
 import YourPost from './component/post/post.jsx';
 import createPost from './component/createPost/createPost.jsx';
 import Vote from './component/vote/vote.jsx';
+import About from './component/about/about.jsx';
 
 class App extends Component {
   constructor(props) {
@@ -46,6 +47,7 @@ class App extends Component {
       <Router>
         <Switch>
           <Route exact path="/" component={Login}/>
+          <Route exact path="/About" component={About}/>
           <Route exact path="/vote" component={Vote}/>
           <Route exact path="/yourPost" component={YourPost}/>
           <Route exact path="/createPost" component={createPost}/>

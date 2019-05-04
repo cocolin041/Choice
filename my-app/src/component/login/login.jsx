@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Redirect} from 'react-router-dom';
+import {Redirect, Link} from 'react-router-dom';
 import './login.css';
 
 class Login extends Component {
@@ -14,6 +14,7 @@ class Login extends Component {
       redirectVote: false
     }
     this.searchUser = this.searchUser.bind(this);
+    this.createUser = this.createUser.bind(this);
     this.goCreatePost = this.goCreatePost.bind(this);
     this.goYourPost = this.goYourPost.bind(this);
     this.goVote = this.goVote.bind(this);
@@ -61,6 +62,8 @@ class Login extends Component {
         this.setState({
           userExist: false
         });
+        // let alert = document.getElementById("userNotFound");
+        // alert.innerText = "user not found";
       }
     });
   };
@@ -121,18 +124,18 @@ class Login extends Component {
     return (
       <div class="user">
         {this.state.userExist === undefined ? (
-          <div>
-            <div>
+          <div className="account">
+            <div className="login">
               <h2>Login</h2>
-              Username:<input type="text" name="usernameLogin"/>
-              Password:<input type="text" name="passwordLogin"/>
+              <div><input type="text" name="usernameLogin" placeholder="username" required /></div>
+              <div><input type="password" name="passwordLogin" placeholder="password" required /></div>
               <button type="button" onClick={this.searchUser}>login</button>
             </div>
 
-            <div>
+            <div className="login">
               <h2>Don't have an account?</h2>
-              create Username:<input type="text" name="usernameCreate"/>
-              create password:<input type="text" name="passwordCreate"/>
+              <div><input type="text" name="usernameCreate" placeholder="username" required /></div>
+              <div><input type="password" name="passwordCreate" placeholder="password" required /></div>
               <button type="button" onClick={this.createUser}>create</button>
             </div>
           </div>
@@ -146,6 +149,7 @@ class Login extends Component {
                       <li className="menu-item" onClick={this.redirectCreatePost}>Create Post</li>
                       <li className="menu-item" onClick={this.redirectYourPost}>Your Post</li>
                       <li className="menu-item" onClick={this.redirectVote}>Vote</li>
+                      <Link className="menu-item" to="/About">About</Link>
                     </ul>
                     <h2>Welcome, {this.state.username}</h2>
                     {this.goCreatePost()}
@@ -164,10 +168,10 @@ class Login extends Component {
                 )}
               </div>
             ):(
-              <div>
-                <h2>User Not Found</h2>
-                create Username:<input type="text" name="usernameCreate"/>
-                create password:<input type="text" name="passwordCreate"/>
+              <div className="login">
+                <h2>User not found, don't have an account?</h2>
+                <div><input type="text" name="usernameCreate" placeholder="username" required /></div>
+                <div><input type="password" name="passwordCreate" placeholder="password" required /></div>
                 <button type="button" onClick={this.createUser}>create</button>
               </div>
             )}

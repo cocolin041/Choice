@@ -3,20 +3,7 @@ import {Redirect, Link} from 'react-router-dom';
 import * as firebase from "firebase/app";
 import "firebase/storage";
 import "firebase/firestore";
-// import './post.css';
-
-// var selectedFileL;
-// var selectedFileR;
-// const firebaseConfig = {
-//   apiKey: "AIzaSyB3TGGGH9QxPDNbuwmq7_N63MVNPt9KCD0",
-//   authDomain: "cs498-1556867489239.firebaseapp.com",
-//   databaseURL: "https://cs498-1556867489239.firebaseio.com",
-//   projectId: "cs498-1556867489239",
-//   storageBucket: "cs498-1556867489239.appspot.com",
-//   messagingSenderId: "1088207692567",
-//   appId: "1:1088207692567:web:41978eb051dde9dc"
-// };
-// firebase.initializeApp(firebaseConfig);
+import './createPost.css';
 
 var storageService = firebase.storage();
 var storageRef = storageService.ref();
@@ -97,7 +84,6 @@ class createPost extends Component {
   handleFileUploadChangeL = (e) => {
     let file = e.target.files[0];
     this.setState({selectedFileL: file});
-    // selectedFileL = e.target.files[0];
   }
   handleFileUploadChangeR = (e) => {
     this.setState({selectedFileR: e.target.files[0]});
@@ -166,31 +152,23 @@ class createPost extends Component {
     this.handleFileUploadSubmit();
     return (
       <div>
-        {/* <div>Hello, {this.props.location.username}</div> */}
         <ul className="menu">
           <Link className="menu-item" to={{pathname: "/yourPost", username: this.props.location.username}}>Your Post</Link>
           <Link className="menu-item" to={{pathname: "/vote", username: this.props.location.username}}>Vote</Link>
         </ul>
         <h2>Create post</h2>
+        <h3>Totorial: Upload choices' photo, and set a time duration, the publich will vote for you within this period!</h3>
         <div className="choice">
-          <div>
-            <div>
-              <input type="file" class="file-select-left" accept="image/*" onChange={this.handleFileUploadChangeL}/>
-              <img src="" id="myimgL" />
-            </div>
-            <div>
-              <input type="file" class="file-select-right" accept="image/*" onChange={this.handleFileUploadChangeR}/>
-              <img src="" id="myimgR" />
-            </div>
+          <div className="left">
+            <input type="file" class="file-select-left" accept="image/*" onChange={this.handleFileUploadChangeL}/>
+            <img src="" id="myimgL" />
           </div>
-
-          {/* <form id="frmUploader" enctype="multipart/form-data" action="/api/Upload/" method="post">
-            <input type="file" name="imgUploader" multiple />
-            <input type="submit" name="submit" id="btnSubmit" value="Upload" onClick={this.submit}/>
-            <img src="/image.png" />
-          </form> */}
+          <div className="right">
+            <input type="file" class="file-select-right" accept="image/*" onChange={this.handleFileUploadChangeR}/>
+            <img src="" id="myimgR" />
+          </div>
         </div>
-        Period: <input type="number" name="duration"/> mins
+        <div className="duration">Duration: <input type="number" name="duration"/> mins</div>
         <button type="button" onClick={this.createPost}>create</button>
       </div>
     );

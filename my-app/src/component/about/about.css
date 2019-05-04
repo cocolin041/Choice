@@ -43,25 +43,3 @@ body {
   left: 0%;
   transition: 0.2s ease-in-out;
 }
-.post {
-  display: flex;
-  /* margin: 0 auto; */
-  justify-content: center;
-}
-.left, .right {
-  position: relative;
-  width: 30%;
-}
-.left > img, .right > img {
-  height: 300px;
-  width: 100% !important;
-}
-.left > div, .right > div {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  border: 2px solid black;
-  background-color: white;
-  padding: 15px;
-}
