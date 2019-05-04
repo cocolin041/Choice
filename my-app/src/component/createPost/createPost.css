@@ -11,6 +11,7 @@ body {
 }
 .choice {
   display: flex;
+  justify-content: center;
 }
 .left, .right {
   position: relative;

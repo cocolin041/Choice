@@ -110,6 +110,9 @@ class createPost extends Component {
   }
 
   handleFileDownload = (e) => {
+    let inputs = document.querySelectorAll("input");
+    console.log(inputs);
+    inputs.forEach(i => i.style.display = "none");
     storageRef.child('images/left_'+ this.state.post_id + '.png').getDownloadURL().then(function(url) {
       // `url` is the download URL for 'images/stars.jpg'
     
