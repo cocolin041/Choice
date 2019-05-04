@@ -13,18 +13,38 @@ h2 {
 }
 .account {
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
+}
+@media only screen and (min-width: 500px) {
+  body {
+    background-color: lightblue;
+  }
+  .login {
+    min-width: 500px;
+  }
+  .login > div > input {
+    min-width: 400px;
+  }
+}
+@media only screen and (max-width: 500px) {
+  body {
+    max-width: 500px;
+  }
+  .login {
+    max-width: 500px;
+  }
 }
 .login {
   background: rgba(44,62, 80, 0.2);
-  width: 500px;
+  /* width: 500px; */
   margin: auto;
   margin-top: 80px;
   height: 400px;
   padding-bottom: 75px;
 }
 .login > div > input {
-  width: 400px;
+  /* width: 400px; */
   text-align: center;
   background: transparent;
   border: none;
@@ -39,7 +59,7 @@ h2 {
 }
 .login > button {
   border: none;
-  width: 190px;
+  /* width: 190px; */
   background: white;
   color: #000;
   font-size: 16px;
