@@ -1,6 +1,12 @@
 import React, { Component } from 'react';
 import {Redirect, Link} from 'react-router-dom';
+import * as firebase from "firebase/app";
+import "firebase/storage";
+import "firebase/firestore";
 import './vote.css';
+
+var storageService = firebase.storage();
+var storageRef = storageService.ref();
 
 class Vote extends Component {
   constructor(props) {
@@ -17,6 +23,7 @@ class Vote extends Component {
     this.right = this.right.bind(this);
     this.update = this.update.bind(this);
     this.setrender = this.setrender.bind(this);
+    this.handleFileDownload = this.handleFileDownload.bind(this);
   }
   connecToServer() {
     fetch('/user/' + this.props.location.username, {
@@ -40,6 +47,35 @@ class Vote extends Component {
     this.connecToServer();
   }
 
+  handleFileDownload = (post_id) => {
+    storageRef.child('images/left_'+ post_id + '.png').getDownloadURL().then(function(url) {
+      var xhr = new XMLHttpRequest();
+      xhr.responseType = 'blob';
+      xhr.onload = function(event) {
+        var blob = xhr.response;
+      };
+      xhr.open('GET', url);
+      xhr.send();
+      var img = document.getElementById('myimgL');
+      img.src = url;
+    }).catch(function(error) {
+      // Handle any errors
+    });
+    storageRef.child('images/right_'+ post_id + '.png').getDownloadURL().then(function(url) {
+      var xhr = new XMLHttpRequest();
+      xhr.responseType = 'blob';
+      xhr.onload = function(event) {
+        var blob = xhr.response;
+      };
+      xhr.open('GET', url);
+      xhr.send();
+      var img = document.getElementById('myimgR');
+      img.src = url;
+    }).catch(function(error) {
+      // Handle any errors
+    });
+  }
+
   update = () => {
     if (this.state.newVote) {
       fetch('/vote/' + this.state.user_id, {
@@ -52,8 +88,6 @@ class Vote extends Component {
       })
       .then(res => res.json())
       .then(data => {
-        console.log(data);
-        console.log(data.length);
         if (data.length > 0) {
           if (this.state.count === 0) {
             this.setState({newVote: false, post: data, startRender: true, count: 1});
@@ -69,14 +103,14 @@ class Vote extends Component {
   setrender = () => {
     console.log("setrender");
     if (this.state.startRender) {
-      console.log("render");
-      // this.setState({setrender})
       if (this.state.post.length > 0) {
+        console.log("render");
         let post = this.state.post[0];
+        this.handleFileDownload(post.post_id);
         return (
           <div>
-            <span onClick={() => this.left(post.post_id)}>{post.left}</span>
-            <span onClick={() => this.right(post.post_id)}>{post.right}</span>
+            <img id="myimgL" onClick={() => this.left(post.post_id)} />
+            <img id="myimgR" onClick={() => this.right(post.post_id)} />
           </div>
         )
       } else {

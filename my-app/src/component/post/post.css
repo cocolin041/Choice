@@ -43,3 +43,8 @@ body {
   left: 0%;
   transition: 0.2s ease-in-out;
 }
+
+img {
+  height: 300px;
+  width: 50%;
+}

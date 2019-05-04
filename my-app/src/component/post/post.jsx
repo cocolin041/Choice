@@ -1,16 +1,76 @@
 import React, { Component } from 'react';
 import {Redirect, Link} from 'react-router-dom';
+import * as firebase from "firebase/app";
+import "firebase/storage";
+import "firebase/firestore";
 import './post.css';
+
+const firebaseConfig = {
+  apiKey: "AIzaSyB3TGGGH9QxPDNbuwmq7_N63MVNPt9KCD0",
+  authDomain: "cs498-1556867489239.firebaseapp.com",
+  databaseURL: "https://cs498-1556867489239.firebaseio.com",
+  projectId: "cs498-1556867489239",
+  storageBucket: "cs498-1556867489239.appspot.com",
+  messagingSenderId: "1088207692567",
+  appId: "1:1088207692567:web:41978eb051dde9dc"
+};
+firebase.initializeApp(firebaseConfig);
+
+var storageService = firebase.storage();
+var storageRef = storageService.ref();
 
 class YourPost extends Component {
   constructor(props) {
     super(props);
     this.state = {
       user_id: '',
-      posts: []
+      posts: [],
+      downloaded: false
     }
     this.connecToServer = this.connecToServer.bind(this);
+    this.handleFileDownload = this.handleFileDownload.bind(this);
+    this.renderPost = this.renderPost.bind(this);
   }
+
+  handleFileDownload = (data, num) => {
+    let posts = this.state.posts;
+    storageRef.child('images/'+ data.left).getDownloadURL().then(function(url) {
+      var xhr = new XMLHttpRequest();
+      xhr.responseType = 'blob';
+      xhr.onload = function(event) {
+        var blob = xhr.response;
+      };
+      xhr.open('GET', url);
+      xhr.send();
+      var img = document.getElementsByClassName('myimgL')[num];
+      img.src = url;
+      let postIdx = posts.findIndex(x => x.post_id === data.post_id);
+      posts[postIdx].left = url;
+      this.setState({posts: posts});
+    }).catch(function(error) {
+      // Handle any errors
+    });
+
+
+    storageRef.child('images/'+ data.right).getDownloadURL().then(function(url) {
+      var xhr = new XMLHttpRequest();
+      xhr.responseType = 'blob';
+      xhr.onload = function(event) {
+        var blob = xhr.response;
+      };
+      xhr.open('GET', url);
+      xhr.send();
+      var img = document.getElementsByClassName('myimgR')[num];
+      img.src = url;
+      let postIdx = posts.findIndex(x => x.post_id === data.post_id);
+      posts[postIdx].right = url;
+      this.setState({posts: posts, downloaded: true});
+    }).catch(function(error) {
+      // Handle any errors
+    });
+    
+  };
+
   async connecToServer() {
     //get user_id
     await fetch('/user/' + this.props.location.username, {
@@ -43,7 +103,7 @@ class YourPost extends Component {
         let posts = [];
         data.map(data => {
           posts.push({
-            id: data.post_id,
+            post_id: data.post_id,
             left: data.left,
             right: data.right,
             voteLeft: 0,
@@ -56,7 +116,7 @@ class YourPost extends Component {
 
     //get voteResult
     await this.state.posts.map(p => {
-      fetch('/voteResult/' + p.id, {
+      fetch('/voteResult/' + p.post_id, {
         method: 'get',
         dataType: 'json',
         headers: {
@@ -77,14 +137,40 @@ class YourPost extends Component {
             }
           })
           let posts = this.state.posts;
-          let postIdx = posts.findIndex(x => x.id === p.id);
+          let postIdx = posts.findIndex(x => x.post_id === p.post_id);
           posts[postIdx].voteLeft = left / (left + right);
           posts[postIdx].voteRight = right / (left + right);
           this.setState({posts: posts});
         }
       })
     })
-    
+
+    //get img url
+    let num = 0;
+    await this.state.posts.map(p => {
+      this.handleFileDownload(p, num);
+      num += 1;
+    })
+  }
+
+  renderPost = () => {
+      return (
+        <div>
+        <div>hello</div>
+        {this.state.posts.map(p => 
+          <div>
+            <div>
+              <img class="myimgL" src={p.left} />
+              <div>{p.voteLeft}</div>
+            </div>
+            <div>
+              <img class="myimgR" src={p.right} />
+              <div>{p.voteRight}</div>
+            </div>
+          </div>
+        )}
+        </div>
+      )
   }
 
   componentDidMount() {
@@ -101,19 +187,20 @@ class YourPost extends Component {
         </ul>
         <h2>Your Post</h2>
         {this.state.posts.length > 0 ? (
-          <div>
-            {this.state.posts.map(p => 
-              <table>
-                <tr>
-                  <th>{p.left}</th>
-                  <th>{p.right}</th> 
-                </tr>
-                <tr>
-                  <td>{p.voteLeft}</td>
-                  <td>{p.voteRight}</td>
-                </tr>
-              </table>
-            )}
+          <div id="renderPost">
+            {this.renderPost()}
+            {/* {this.state.posts.map(p => 
+              <div>
+                <div>
+                  <img class="myimgL" src={p.left} />
+                  <div>{p.voteLeft}</div>
+                </div>
+                <div>
+                  <img class="myimgR" src={p.right} />
+                  <div>{p.voteRight}</div>
+                </div>
+              </div>
+            )} */}
           </div>
         ):(
           <div>No post yet</div>

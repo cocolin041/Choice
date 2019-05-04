@@ -1,6 +1,7 @@
 const express = require('express');
 var moment = require('moment');
 var mysql = require('mysql');
+var multer = require('multer');
 const app = express();
 const path = require('path');
 const port = process.env.PORT || 5000;
@@ -62,8 +63,21 @@ app.post('/post/:user_id', (req, res) => {
     res.send({
       createTime: createTime,
       endTime: endTime,
-      result: result
+      post_id: result.insertId
     });
+  });
+})
+
+app.post('/upload/:post_id', (req, res) => {
+  let values = req.body;
+  con.query("UPDATE post SET post.left = '" + values.left + ".png', post.right = '" + values.right + ".png' WHERE post.post_id = '" + req.params.post_id + "'", 
+  (err, result) => {
+    if (err) throw err;
+    // res.send({
+    //   createTime: createTime,
+    //   endTime: endTime,
+    //   post_id: result.insertId
+    // });
   });
 })
 
@@ -127,6 +141,9 @@ app.get('/voteResult/:post_id', (req, res) => {
     // console.log(result);
   });
 })
+
+
+//upload img
 
 
 //start server
