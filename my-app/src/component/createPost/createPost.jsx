@@ -158,6 +158,8 @@ class createPost extends Component {
         <ul className="menu">
           <Link className="menu-item" to={{pathname: "/yourPost", username: this.props.location.username}}>Your Post</Link>
           <Link className="menu-item" to={{pathname: "/vote", username: this.props.location.username}}>Vote</Link>
+          <Link className="menu-item" to={{pathname: "/", isLoggedIn: true}}>About</Link>
+          <Link className="menu-item" to={{pathname: "/login", isLoggedIn: false}}>Logout</Link>
         </ul>
         <h2>Create post</h2>
         <h3>Totorial: Upload choices' photo, and set a time duration, the publich will vote for you within this period!</h3>

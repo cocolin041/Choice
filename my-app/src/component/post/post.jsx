@@ -182,6 +182,8 @@ class YourPost extends Component {
         <ul className="menu">
           <Link className="menu-item" to={{pathname: "/createPost", username: this.props.location.username}}>Create Post</Link>
           <Link className="menu-item" to={{pathname: "/vote", username: this.props.location.username}}>Vote</Link>
+          <Link className="menu-item" to={{pathname: "/", isLoggedIn: true}}>About</Link>
+          <Link className="menu-item" to={{pathname: "/login", isLoggedIn: false}}>Logout</Link>
         </ul>
         <h2>Your Post</h2>
         <h3>This is the current voting result:)</h3>

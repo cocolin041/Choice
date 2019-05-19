@@ -11,7 +11,8 @@ class Login extends Component {
       passwordMatch: false,
       redirectCreatePost: false,
       redirectYourPost: false,
-      redirectVote: false
+      redirectVote: false,
+      isLoggedIn: false
     }
     this.searchUser = this.searchUser.bind(this);
     this.createUser = this.createUser.bind(this);
@@ -21,9 +22,11 @@ class Login extends Component {
     this.redirectCreatePost = this.redirectCreatePost.bind(this);
     this.redirectYourPost = this.redirectYourPost.bind(this);
     this.redirectVote = this.redirectVote.bind(this);
+    this.logout = this.logout.bind(this);
     
   }
 
+  // Login
   searchUser() {
     let username = document.querySelector("input[name='usernameLogin']");
     let password = document.querySelector("input[name='passwordLogin']");
@@ -47,7 +50,8 @@ class Login extends Component {
           this.setState({
             username: data[0].userName,
             userExist: true,
-            passwordMatch: true
+            passwordMatch: true,
+            isLoggedIn: true
           });
         //password not match
         } else {
@@ -55,18 +59,26 @@ class Login extends Component {
             username: data[0].userName,
             userExist: true,
             passwordMatch: false,
+            isLoggedIn: false
           });
+          // show warning message of password wrong
+          let password_warn = document.getElementById("password-warn");
+          password_warn.style.display = "block";
         }
       //user not exist
       } else {
         this.setState({
-          userExist: false
+          userExist: false,
+          isLoggedIn: false
         });
-        // let alert = document.getElementById("userNotFound");
-        // alert.innerText = "user not found";
+        // show warning message of user doesn't exist
+        let user_warn = document.getElementById("user-warn");
+        user_warn.style.display = "block";
       }
     });
   };
+
+  // Create user account
   createUser() {
     let username = document.querySelector("input[name='usernameCreate']");
     let password = document.querySelector("input[name='passwordCreate']");
@@ -87,11 +99,11 @@ class Login extends Component {
     })
     .then(res => res.json())
     .then(data => {
-      console.log(data);
       this.setState({
         username: data.userName,
         userExist: true,
-        passwordMatch: true
+        passwordMatch: true,
+        isLoggedIn: true
       })
     });
   };
@@ -119,63 +131,52 @@ class Login extends Component {
       return <Redirect to={{pathname: '/vote', username: this.state.username}} />
     }
   }
+  logout = () => {
+    this.setState({isLoggedIn: false});
+  }
 
   render() {
+    if (!this.props.location.isLoggedIn) {
+      this.setState({isLoggedIn: false});
+    }
     return (
       <div class="user">
-        {this.state.userExist === undefined ? (
-          <div className="account">
-            <div className="login">
-              <h2>Login</h2>
-              <div><input type="text" name="usernameLogin" placeholder="username" required /></div>
-              <div><input type="password" name="passwordLogin" placeholder="password" required /></div>
-              <button type="button" onClick={this.searchUser}>login</button>
-            </div>
-
-            <div className="login">
-              <h2>Don't have an account?</h2>
-              <div><input type="text" name="usernameCreate" placeholder="username" required /></div>
-              <div><input type="password" name="passwordCreate" placeholder="password" required /></div>
-              <button type="button" onClick={this.createUser}>create</button>
-            </div>
-          </div>
-        ) : (
+      {/* before login */}
+        {!this.state.isLoggedIn ? (
           <div>
-            {this.state.userExist ? (
-              <div>
-                {this.state.passwordMatch ? (
-                  <div>
-                    <ul className="menu">
-                      <li className="menu-item" onClick={this.redirectCreatePost}>Create Post</li>
-                      <li className="menu-item" onClick={this.redirectYourPost}>Your Post</li>
-                      <li className="menu-item" onClick={this.redirectVote}>Vote</li>
-                      <Link className="menu-item" to="/About">About</Link>
-                    </ul>
-                    <h2>Welcome, {this.state.username}</h2>
-                    {this.goCreatePost()}
-                    {this.goYourPost()}
-                    {this.goVote()}
-                    {/* <button type="button" onClick={this.redirectPost}>post</button>
-                    <button type="button" onClick={this.redirectVote}>vote</button> */}
-                  </div>
-                ) : (
-                  <div>
-                    <h2>Password doesn't match</h2>
-                    Username:<input type="text" name="usernameLogin"/>
-                    Password:<input type="text" name="passwordLogin"/>
-                    <button type="button" onClick={this.searchUser}>login</button>
-                  </div>
-                )}
-              </div>
-            ):(
+            <h2>Welcome to Choice! Login to make choices for others or post your choices.</h2>
+            <div className="account">
               <div className="login">
-                <h2>User not found, don't have an account?</h2>
+                <h2>Login</h2>
+                <div><input type="text" name="usernameLogin" placeholder="username" required /></div>
+                <div><input type="password" name="passwordLogin" placeholder="password" required /></div>
+                <div id="password-warn">Password Wrong</div>
+                <div id="user-warn">User doesn't exist</div>
+                <button type="button" onClick={this.searchUser}>Login</button>
+              </div>
+
+              <div className="login">
+                <h2>Don't have an account?</h2>
                 <div><input type="text" name="usernameCreate" placeholder="username" required /></div>
                 <div><input type="password" name="passwordCreate" placeholder="password" required /></div>
                 <button type="button" onClick={this.createUser}>create</button>
               </div>
-            )}
-            
+            </div>
+          </div>
+        ) : (
+          // successfully login
+          <div>
+            <ul className="menu">
+              <li className="menu-item" onClick={this.redirectCreatePost}>Create Post</li>
+              <li className="menu-item" onClick={this.redirectYourPost}>Your Post</li>
+              <li className="menu-item" onClick={this.redirectVote}>Vote</li>
+              <li className="menu-item" onClick={this.logout}>Logout</li>
+              <Link className="menu-item" to={{pathname: "/", isLoggedIn: true}}>About</Link>
+            </ul>
+            <h2>Welcome, {this.state.username}</h2>
+            {this.goCreatePost()}
+            {this.goYourPost()}
+            {this.goVote()}
           </div>
         )}
       </div>

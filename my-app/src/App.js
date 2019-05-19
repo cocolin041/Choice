@@ -46,8 +46,8 @@ class App extends Component {
       // <div class="g-signin2" data-onsuccess="onSignIn"></div>
       <Router>
         <Switch>
-          <Route exact path="/" component={Login}/>
-          <Route exact path="/About" component={About}/>
+          <Route exact path="/" component={About}/>
+          <Route exact path="/login" component={Login}/>
           <Route exact path="/vote" component={Vote}/>
           <Route exact path="/yourPost" component={YourPost}/>
           <Route exact path="/createPost" component={createPost}/>

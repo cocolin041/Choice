@@ -110,3 +110,11 @@ h2 {
   left: 0%;
   transition: 0.2s ease-in-out;
 }
+#password-warn {
+  display: none;
+  color: red;
+}
+#user-warn {
+  display: none;
+  color: red;
+}

@@ -101,7 +101,6 @@ class Vote extends Component {
     }
   }
   setrender = () => {
-    console.log("setrender");
     if (this.state.startRender) {
       if (this.state.post.length > 0) {
         console.log("render");
@@ -114,11 +113,8 @@ class Vote extends Component {
           </div>
         )
       } else {
-        console.log("You voted all");
         return <div>You voted all</div>
       }
-    } else {
-      console.log("not render");
     }
   }
 
@@ -137,10 +133,7 @@ class Vote extends Component {
         choice: 'left'
       })
     })
-    .then(res => res.json())
-    .then(data => {
-      // console.log(data);
-    });
+    .then(res => res.json());
   }
 
   right = (post_id) => {
@@ -158,10 +151,7 @@ class Vote extends Component {
         choice: 'right'
       })
     })
-    .then(res => res.json())
-    .then(data => {
-      // console.log(data);
-    });
+    .then(res => res.json());
   }
 
   render() {
@@ -170,6 +160,8 @@ class Vote extends Component {
         <ul className="menu">
           <Link className="menu-item" to={{pathname: "/yourPost", username: this.props.location.username}}>Your Post</Link>
           <Link className="menu-item" to={{pathname: "/createPost", username: this.props.location.username}}>Create Post</Link>
+          <Link className="menu-item" to={{pathname: "/", isLoggedIn: true}}>About</Link>
+          <Link className="menu-item" to={{pathname: "/login", isLoggedIn: false}}>Logout</Link>
         </ul>
         <h2>Vote</h2>
         <h3>You can vote for others here!</h3>
