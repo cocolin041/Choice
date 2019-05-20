@@ -83,6 +83,9 @@ class Login extends Component {
 
   // Create user account
   createUser() {
+    if (!this.props.location.isLoggedIn) {
+      this.props.location.isLoggedIn = undefined;
+    }
     let username = document.querySelector("input[name='usernameCreate']");
     let password = document.querySelector("input[name='passwordCreate']");
     username = username.value;
