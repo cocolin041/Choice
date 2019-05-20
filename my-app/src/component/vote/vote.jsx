@@ -110,6 +110,7 @@ class Vote extends Component {
         return (
           <div className="choice">
             <img id="myimgL" onClick={() => this.left(post.post_id)} />
+            <div className="split"></div>
             <img id="myimgR" onClick={() => this.right(post.post_id)} />
           </div>
         )

@@ -3,5 +3,9 @@
 }
 img {
   height: 300px;
-  width: 50% !important;
+  width: 20% !important;
+}
+.split {
+  height: 300px;
+  border: 1px solid black;
 }
