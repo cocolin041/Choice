@@ -173,26 +173,35 @@ class YourPost extends Component {
   }
 
   componentDidMount() {
-    this.connecToServer();
+    if (this.props.location.username !== undefined) {
+      this.connecToServer();
+    }
   }
 
   render() {
     return (
       <div>
-        <ul className="menu">
-          <Link className="menu-item" to={{pathname: "/createPost", username: this.props.location.username}}>Create Post</Link>
-          <Link className="menu-item" to={{pathname: "/vote", username: this.props.location.username}}>Vote</Link>
-          <Link className="menu-item" to={{pathname: "/", isLoggedIn: true}}>About</Link>
-          <Link className="menu-item" to={{pathname: "/login", isLoggedIn: false}}>Logout</Link>
-        </ul>
-        <h2>Your Post</h2>
-        <h3>This is the current voting result:)</h3>
-        {this.state.posts.length > 0 ? (
-          <div id="renderPost">
-            {this.renderPost()}
+        {this.props.location.username === undefined ? (
+          <Redirect to={{pathname: '/'}} />
+        ):
+        (
+          <div>
+            <ul className="menu">
+              <Link className="menu-item" to={{pathname: "/createPost", username: this.props.location.username}}>Create Post</Link>
+              <Link className="menu-item" to={{pathname: "/vote", username: this.props.location.username}}>Vote</Link>
+              <Link className="menu-item" to={{pathname: "/", state: {isLoggedIn: true, username: this.props.location.username}}}>About</Link>
+              <Link className="menu-item" to={{pathname: "/login", isLoggedIn: false}}>Logout</Link>
+            </ul>
+            <h2>Your Post</h2>
+            <h3>This is the current voting result:)</h3>
+            {this.state.posts.length > 0 ? (
+              <div id="renderPost">
+                {this.renderPost()}
+              </div>
+            ):(
+              <div>No post yet</div>
+            )}
           </div>
-        ):(
-          <div>No post yet</div>
         )}
       </div>
     );

@@ -44,7 +44,9 @@ class Vote extends Component {
   }
 
   componentDidMount() {
-    this.connecToServer();
+    if (this.props.location.username !== undefined) {
+      this.connecToServer();
+    }
   }
 
   handleFileDownload = (post_id) => {
@@ -103,7 +105,6 @@ class Vote extends Component {
   setrender = () => {
     if (this.state.startRender) {
       if (this.state.post.length > 0) {
-        console.log("render");
         let post = this.state.post[0];
         this.handleFileDownload(post.post_id);
         return (
@@ -157,17 +158,24 @@ class Vote extends Component {
   render() {
     return (
       <div>
-        <ul className="menu">
-          <Link className="menu-item" to={{pathname: "/yourPost", username: this.props.location.username}}>Your Post</Link>
-          <Link className="menu-item" to={{pathname: "/createPost", username: this.props.location.username}}>Create Post</Link>
-          <Link className="menu-item" to={{pathname: "/", isLoggedIn: true}}>About</Link>
-          <Link className="menu-item" to={{pathname: "/login", isLoggedIn: false}}>Logout</Link>
-        </ul>
-        <h2>Vote</h2>
-        <h3>You can vote for others here!</h3>
-        <h3>Tutorial: Click img to vote for it.</h3>
-        {this.update()}
-        {this.setrender()}
+        {this.props.location.username === undefined ? (
+          <Redirect to={{pathname: '/'}} />
+        ):
+        (
+          <div>
+            <ul className="menu">
+              <Link className="menu-item" to={{pathname: "/yourPost", username: this.props.location.username}}>Your Post</Link>
+              <Link className="menu-item" to={{pathname: "/createPost", username: this.props.location.username}}>Create Post</Link>
+              <Link className="menu-item" to={{pathname: "/", state: {isLoggedIn: true, username: this.props.location.username}}}>About</Link>
+              <Link className="menu-item" to={{pathname: "/login", isLoggedIn: false}}>Logout</Link>
+            </ul>
+            <h2>Vote</h2>
+            <h3>You can vote for others here!</h3>
+            <h3>Tutorial: Click img to vote for it.</h3>
+            {this.update()}
+            {this.setrender()}
+          </div>
+        )}
       </div>
     );
   }

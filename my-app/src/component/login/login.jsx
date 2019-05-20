@@ -23,11 +23,14 @@ class Login extends Component {
     this.redirectYourPost = this.redirectYourPost.bind(this);
     this.redirectVote = this.redirectVote.bind(this);
     this.logout = this.logout.bind(this);
-    
+    this.renderLogin = this.renderLogin.bind(this);
   }
 
   // Login
   searchUser() {
+    if (!this.props.location.isLoggedIn) {
+      this.props.location.isLoggedIn = undefined;
+    }
     let username = document.querySelector("input[name='usernameLogin']");
     let password = document.querySelector("input[name='passwordLogin']");
     username = username.value;
@@ -135,16 +138,21 @@ class Login extends Component {
     this.setState({isLoggedIn: false});
   }
 
-  render() {
-    if (!this.props.location.isLoggedIn) {
-      this.setState({isLoggedIn: false});
+  renderLogin = () => {
+    if (this.props.location.isLoggedIn !== undefined) {
+      if (this.props.location.isLoggedIn !== this.state.isLoggedIn) {
+        this.setState({isLoggedIn: this.props.location.isLoggedIn});
+      }
     }
+  }
+
+  render() {
+    this.renderLogin();
     return (
       <div class="user">
       {/* before login */}
         {!this.state.isLoggedIn ? (
           <div>
-            <h2>Welcome to Choice! Login to make choices for others or post your choices.</h2>
             <div className="account">
               <div className="login">
                 <h2>Login</h2>
@@ -170,8 +178,8 @@ class Login extends Component {
               <li className="menu-item" onClick={this.redirectCreatePost}>Create Post</li>
               <li className="menu-item" onClick={this.redirectYourPost}>Your Post</li>
               <li className="menu-item" onClick={this.redirectVote}>Vote</li>
+              <Link className="menu-item" to={{pathname: "/", state: {isLoggedIn: true, username: this.state.username}}}>About</Link>
               <li className="menu-item" onClick={this.logout}>Logout</li>
-              <Link className="menu-item" to={{pathname: "/", isLoggedIn: true}}>About</Link>
             </ul>
             <h2>Welcome, {this.state.username}</h2>
             {this.goCreatePost()}

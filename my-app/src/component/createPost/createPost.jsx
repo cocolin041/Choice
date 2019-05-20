@@ -43,7 +43,9 @@ class createPost extends Component {
   }
 
   componentDidMount() {
-    this.connecToServer();
+    if (this.props.location.username !== undefined) {
+      this.connecToServer();
+    }
   }
 
   createPost = async () => {
@@ -155,26 +157,32 @@ class createPost extends Component {
     this.handleFileUploadSubmit();
     return (
       <div>
-        <ul className="menu">
-          <Link className="menu-item" to={{pathname: "/yourPost", username: this.props.location.username}}>Your Post</Link>
-          <Link className="menu-item" to={{pathname: "/vote", username: this.props.location.username}}>Vote</Link>
-          <Link className="menu-item" to={{pathname: "/", isLoggedIn: true}}>About</Link>
-          <Link className="menu-item" to={{pathname: "/login", isLoggedIn: false}}>Logout</Link>
-        </ul>
-        <h2>Create post</h2>
-        <h3>Totorial: Upload choices' photo, and set a time duration, the publich will vote for you within this period!</h3>
-        <div className="choice">
-          <div className="left">
-            <input type="file" class="file-select-left" accept="image/*" onChange={this.handleFileUploadChangeL}/>
-            <img src="" id="myimgL" />
+        {this.props.location.username === undefined ? (
+          <Redirect to={{pathname: '/'}} />
+        ):(
+          <div>
+            <ul className="menu">
+              <Link className="menu-item" to={{pathname: "/yourPost", username: this.props.location.username}}>Your Post</Link>
+              <Link className="menu-item" to={{pathname: "/vote", username: this.props.location.username}}>Vote</Link>
+              <Link className="menu-item" to={{pathname: "/", state: {isLoggedIn: true, username: this.props.location.username}}}>About</Link>
+              <Link className="menu-item" to={{pathname: "/login", isLoggedIn: false}}>Logout</Link>
+            </ul>
+            <h2>Create post</h2>
+            <h3>Totorial: Upload choices' photo, and set a time duration, the publich will vote for you within this period!</h3>
+            <div className="choice">
+              <div className="left">
+                <input type="file" class="file-select-left" accept="image/*" onChange={this.handleFileUploadChangeL}/>
+                <img src="" id="myimgL" />
+              </div>
+              <div className="right">
+                <input type="file" class="file-select-right" accept="image/*" onChange={this.handleFileUploadChangeR}/>
+                <img src="" id="myimgR" />
+              </div>
+            </div>
+            <div className="duration">Duration: <input type="number" name="duration"/> mins</div>
+            <button type="button" onClick={this.createPost}>create</button>
           </div>
-          <div className="right">
-            <input type="file" class="file-select-right" accept="image/*" onChange={this.handleFileUploadChangeR}/>
-            <img src="" id="myimgR" />
-          </div>
-        </div>
-        <div className="duration">Duration: <input type="number" name="duration"/> mins</div>
-        <button type="button" onClick={this.createPost}>create</button>
+        )}
       </div>
     );
   }

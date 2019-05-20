@@ -6,13 +6,16 @@ class About extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isLoggedIn: false 
+      isLoggedIn: false
     };
     this.renderLogin = this.renderLogin.bind(this);
   }
   renderLogin = () => {
-    if (this.props.location.isLoggedIn !== undefined) {
-      this.setState({isLoggedIn: this.props.location.isLoggedIn});
+    if (this.props.location.state !== undefined) {
+      if (this.props.location.state.isLoggedIn !== this.state.isLoggedIn) {
+        console.log(this.props.location.state.isLoggedIn);
+        this.setState({isLoggedIn: this.props.location.state.isLoggedIn});
+      }
     }
   }
 
@@ -20,13 +23,18 @@ class About extends Component {
     this.renderLogin();
     return (
       <div>
-        <ul className="menu">
         {!this.state.isLoggedIn ? (
-          <Link className="menu-item" to="/login">Login</Link>
+          <ul className="menu">
+            <Link className="menu-item" to="/login">Login</Link>
+          </ul>
         ):(
-          <Link className="menu-item" to={{pathname: "/login", isLoggedIn: false}}>Logout</Link>
+          <ul className="menu">
+            <Link className="menu-item" to={{pathname: "/createPost", username: this.props.location.state.username}}>Create Post</Link>
+            <Link className="menu-item" to={{pathname: "/yourPost", username: this.props.location.state.username}}>Your Post</Link>
+            <Link className="menu-item" to={{pathname: "/vote", username: this.props.location.state.username}}>Vote</Link>
+            <Link className="menu-item" to={{pathname: "/login", isLoggedIn: false}}>Logout</Link>
+          </ul>
         )}
-        </ul>
         <h2>Welcome to Choice!</h2>
         <h3>Login to make choices for others, or post your own choices</h3>
       </div>
