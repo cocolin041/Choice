@@ -4,6 +4,7 @@ import * as firebase from "firebase/app";
 import "firebase/storage";
 import "firebase/firestore";
 import './vote.css';
+import logo from '../../logo.png';
 
 var storageService = firebase.storage();
 var storageRef = storageService.ref();
@@ -53,28 +54,29 @@ class Vote extends Component {
     storageRef.child('images/left_'+ post_id + '.png').getDownloadURL().then(function(url) {
       var xhr = new XMLHttpRequest();
       xhr.responseType = 'blob';
-      xhr.onload = function(event) {
-        var blob = xhr.response;
-      };
+      // xhr.onload = function(event) {
+      //   var blob = xhr.response;
+      // };
       xhr.open('GET', url);
       xhr.send();
       var img = document.getElementById('myimgL');
       img.src = url;
     }).catch(function(error) {
-      // Handle any errors
+        console.log(error);
     });
     storageRef.child('images/right_'+ post_id + '.png').getDownloadURL().then(function(url) {
       var xhr = new XMLHttpRequest();
       xhr.responseType = 'blob';
-      xhr.onload = function(event) {
-        var blob = xhr.response;
-      };
+      // xhr.onload = function(event) {
+      //   var blob = xhr.response;
+      //   console.log(blob);
+      // };
       xhr.open('GET', url);
       xhr.send();
       var img = document.getElementById('myimgR');
       img.src = url;
     }).catch(function(error) {
-      // Handle any errors
+      console.log(error);
     });
   }
 
@@ -164,12 +166,15 @@ class Vote extends Component {
         ):
         (
           <div>
-            <ul className="menu">
-              <Link className="menu-item" to={{pathname: "/yourPost", username: this.props.location.username}}>Your Post</Link>
-              <Link className="menu-item" to={{pathname: "/createPost", username: this.props.location.username}}>Create Post</Link>
-              <Link className="menu-item" to={{pathname: "/", state: {isLoggedIn: true, username: this.props.location.username}}}>About</Link>
-              <Link className="menu-item" to={{pathname: "/login", isLoggedIn: false}}>Logout</Link>
-            </ul>
+            <div className="menu">
+              <div className="logo"><img src={logo} alt="logo"/></div>
+              <div>
+                <Link className="menu-item" to={{pathname: "/yourPost", username: this.props.location.username}}>Your Post</Link>
+                <Link className="menu-item" to={{pathname: "/createPost", username: this.props.location.username}}>Create Post</Link>
+                <Link className="menu-item" to={{pathname: "/", state: {isLoggedIn: true, username: this.props.location.username}}}>About</Link>
+                <Link className="menu-item" to={{pathname: "/login", isLoggedIn: false}}>Logout</Link>
+              </div>
+            </div>
             <h2>Vote</h2>
             <h3>You can vote for others here!</h3>
             <h3>Tutorial: Click img to vote for it.</h3>

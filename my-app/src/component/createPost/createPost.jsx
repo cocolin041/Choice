@@ -4,6 +4,7 @@ import * as firebase from "firebase/app";
 import "firebase/storage";
 import "firebase/firestore";
 import './createPost.css';
+import logo from '../../logo.png';
 
 var storageService = firebase.storage();
 var storageRef = storageService.ref();
@@ -113,7 +114,6 @@ class createPost extends Component {
 
   handleFileDownload = (e) => {
     let inputs = document.querySelectorAll("input");
-    console.log(inputs);
     inputs.forEach(i => i.style.display = "none");
     storageRef.child('images/left_'+ this.state.post_id + '.png').getDownloadURL().then(function(url) {
       // `url` is the download URL for 'images/stars.jpg'
@@ -161,12 +161,15 @@ class createPost extends Component {
           <Redirect to={{pathname: '/'}} />
         ):(
           <div>
-            <ul className="menu">
-              <Link className="menu-item" to={{pathname: "/yourPost", username: this.props.location.username}}>Your Post</Link>
-              <Link className="menu-item" to={{pathname: "/vote", username: this.props.location.username}}>Vote</Link>
-              <Link className="menu-item" to={{pathname: "/", state: {isLoggedIn: true, username: this.props.location.username}}}>About</Link>
-              <Link className="menu-item" to={{pathname: "/login", isLoggedIn: false}}>Logout</Link>
-            </ul>
+            <div className="menu">
+              <div className="logo"><img src={logo} alt="logo"/></div>
+              <div>
+                <Link className="menu-item" to={{pathname: "/yourPost", username: this.props.location.username}}>Your Post</Link>
+                <Link className="menu-item" to={{pathname: "/vote", username: this.props.location.username}}>Vote</Link>
+                <Link className="menu-item" to={{pathname: "/", state: {isLoggedIn: true, username: this.props.location.username}}}>About</Link>
+                <Link className="menu-item" to={{pathname: "/login", isLoggedIn: false}}>Logout</Link>  
+              </div>
+            </div>
             <h2>Create post</h2>
             <h3>Totorial: Upload choices' photo, and set a time duration, the publich will vote for you within this period!</h3>
             <div className="choice">

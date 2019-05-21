@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {Redirect, Link} from 'react-router-dom';
 import './login.css';
+import logo from '../../logo.png';
 
 class Login extends Component {
   constructor(props) {
@@ -156,6 +157,12 @@ class Login extends Component {
       {/* before login */}
         {!this.state.isLoggedIn ? (
           <div>
+            <div className="menu">
+              <div className="logo"><img src={logo} alt="logo"/></div>
+              <div>
+                <Link className="menu-item" to="/">About</Link>  
+              </div>
+            </div>
             <div className="account">
               <div className="login">
                 <h2>Login</h2>
@@ -177,13 +184,16 @@ class Login extends Component {
         ) : (
           // successfully login
           <div>
-            <ul className="menu">
-              <li className="menu-item" onClick={this.redirectCreatePost}>Create Post</li>
-              <li className="menu-item" onClick={this.redirectYourPost}>Your Post</li>
-              <li className="menu-item" onClick={this.redirectVote}>Vote</li>
-              <Link className="menu-item" to={{pathname: "/", state: {isLoggedIn: true, username: this.state.username}}}>About</Link>
-              <li className="menu-item" onClick={this.logout}>Logout</li>
-            </ul>
+            <div className="menu">
+              <div className="logo"><img src={logo} alt="logo"/></div>
+              <div>
+                <Link className="menu-item" to={{pathname: '/createPost', username: this.state.username}} >Create Post</Link>
+                <Link className="menu-item" to={{pathname: '/yourPost', username: this.state.username}}>Your Post</Link>
+                <Link className="menu-item" to={{pathname: '/vote', username: this.state.username}}>Vote</Link>
+                <Link className="menu-item" to={{pathname: "/", state: {isLoggedIn: true, username: this.state.username}}}>About</Link>
+                <span className="menu-item" onClick={this.logout}>Logout</span>
+              </div>
+            </div>
             <h2>Welcome, {this.state.username}</h2>
             {this.goCreatePost()}
             {this.goYourPost()}

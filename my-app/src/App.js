@@ -8,42 +8,8 @@ import Vote from './component/vote/vote.jsx';
 import About from './component/about/about.jsx';
 
 class App extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {data: []};
-    this.connecToServer = this.connecToServer.bind(this);
-  }
-  connecToServer() {
-    fetch('/post', {
-      method: 'get',
-      dataType: 'json',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      }
-    })
-    .then(res => res.json())
-    .then(data => {
-      console.log(data);
-      this.setState({data: data[0]})
-    });
-  }
-
-  componentDidMount() {
-    this.connecToServer();
-  }
-
-  onSignIn(googleUser) {
-    var profile = googleUser.getBasicProfile();
-    console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
-    console.log('Name: ' + profile.getName());
-    console.log('Image URL: ' + profile.getImageUrl());
-    console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
-  }
-
   render() {
     return (
-      // <div class="g-signin2" data-onsuccess="onSignIn"></div>
       <Router>
         <Switch>
           <Route exact path="/" component={About}/>

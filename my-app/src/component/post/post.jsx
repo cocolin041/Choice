@@ -4,6 +4,7 @@ import * as firebase from "firebase/app";
 import "firebase/storage";
 import "firebase/firestore";
 import './post.css';
+import logo from '../../logo.png';
 
 const firebaseConfig = {
   apiKey: "AIzaSyB3TGGGH9QxPDNbuwmq7_N63MVNPt9KCD0",
@@ -186,12 +187,15 @@ class YourPost extends Component {
         ):
         (
           <div>
-            <ul className="menu">
-              <Link className="menu-item" to={{pathname: "/createPost", username: this.props.location.username}}>Create Post</Link>
-              <Link className="menu-item" to={{pathname: "/vote", username: this.props.location.username}}>Vote</Link>
-              <Link className="menu-item" to={{pathname: "/", state: {isLoggedIn: true, username: this.props.location.username}}}>About</Link>
-              <Link className="menu-item" to={{pathname: "/login", isLoggedIn: false}}>Logout</Link>
-            </ul>
+            <div className="menu">
+              <div className="logo"><img src={logo} alt="logo"/></div>
+              <div>
+                <Link className="menu-item" to={{pathname: "/createPost", username: this.props.location.username}}>Create Post</Link>
+                <Link className="menu-item" to={{pathname: "/vote", username: this.props.location.username}}>Vote</Link>
+                <Link className="menu-item" to={{pathname: "/", state: {isLoggedIn: true, username: this.props.location.username}}}>About</Link>
+                <Link className="menu-item" to={{pathname: "/login", isLoggedIn: false}}>Logout</Link>
+              </div>
+            </div>
             <h2>Your Post</h2>
             <h3>This is the current voting result:)</h3>
             {this.state.posts.length > 0 ? (

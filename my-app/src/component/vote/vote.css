@@ -1,9 +1,9 @@
 .choice {
   display: flex;
 }
-img {
+#myimgL, #myimgR {
   height: 300px;
-  width: 20% !important;
+  width: 20%;
 }
 .split {
   height: 300px;

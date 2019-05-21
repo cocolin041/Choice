@@ -12,6 +12,10 @@ body {
   background: #fff;
   margin: auto;
   /* position: fixed; */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 100px;
   position: relative;
   width: 100%;
   text-align: center;
@@ -19,14 +23,26 @@ body {
   line-height: 70px;
   font-family: 'Titillium Web', sans-serif;
 }
+.logo {
+  height: 100%;
+}
+.logo > img {
+  height: 100%;
+  width: auto;
+}
 .menu-item {
-  color: black;
-  list-style-type: none;
   display: inline;
   position: relative;
   margin: 15px;
+  color: black;
+  list-style-type: none;
+  font-size: 18px;
+  font-weight: bold;
   font-family: 'Titillium Web', sans-serif;
 }
+/* .menu-item:hover {
+  font-size: 18px;
+} */
 .menu-item:before {
   position: absolute;
   transform: translateY(-50%);
