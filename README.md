@@ -1,5 +1,5 @@
 # Choice
-https://still-mesa-72935.herokuapp.com
+https://choose-for-you.herokuapp.com/
 
 ## About
 This website helps user making decisions, by uploading two photos and setting up the duration, other users would vote between these two options for posters within the period, and posters could know the percentage of vote of each choice and then making decisions based on other’s opinion.
